@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include <Windows.h>
 
 using int8		= __int8;
 using int16		= __int16;
@@ -21,7 +22,8 @@ struct Vector
 {
 	Vector() {}
 	Vector(float x, float y) : x(x), y(y) {}
-
+	Vector(POINT pt) : x((float)pt.x), y((float)pt.y) {}	// mousePos가 POINT로 뱉어주기 때문에 Vector로 받을 수 있도록 캐스팅
+	
 	Vector operator+(const Vector& other)
 	{
 		Vector ret;
@@ -84,8 +86,20 @@ struct Vector
 		y /= length;
 	}
 
+	// 내적
+	float Dot(Vector other)
+	{
+		return x * other.x + y * other.y;
+	}
+
+	// 외적
+	float Cross(Vector other)
+	{
+		return x * other.y - y * other.x;
+	}
+
 	float x = 0;
 	float y = 0;
 };
 
-using Pos = Vector;
+using Pos = Vector;		// Pos가 POINT 자료형인데 이제 Vector를 쓰니까!!
